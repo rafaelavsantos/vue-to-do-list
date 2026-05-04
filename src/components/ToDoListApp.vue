@@ -8,6 +8,8 @@
         <!-- Add new task -->
         <TaskAdd @add-task="addTask" />
 
+        <!-- Filters -->
+        <TaskFilters @search="onSearch" @status="onStatus" />
     </div>
 </template>
 
@@ -15,8 +17,46 @@
 import { useStorage } from '@vueuse/core';
 import TaskAdd from './partials/TaskAdd.vue';
 import TaskStats from './partials/TaskStats.vue';
+import { computed, ref } from 'vue';
+import TaskFilters from './partials/TaskFilters.vue';
 
 const tasks = useStorage('tasks', []);
+
+// Se fosse manual manualmente deveria ser um watch
+// const tasks = ref([])
+//
+// watch(tasks, (newTasks) => {
+//  localStorage.setItem('tasks', JSON.stringify(newTasks))
+// }, { deep: true })
+
+const filterSearch = ref('');
+const filterStatus = ref('');
+
+const filteredTasks = computed(() => {
+  let output = tasks.value;
+
+  if (filterSearch.value) {
+    const search = filterSearch.value.toLowerCase();
+
+    output = output.filter(o => o.name.toLowerCase().includes(search));
+  }
+
+  if (filterStatus.value === 'pending') {
+    return output.filter(o => o.completed === false);
+  } else if (filterStatus.value === 'completed')  {
+    return output.filter(o => o.completed === true);
+  }
+
+  return output;
+});
+
+const onSearch = (search) => {
+  filterSearch.value = search
+};
+
+const onStatus = (status) => {
+  filterStatus.value = status
+};
 
 const addTask = (task) => {
     if (!task) { return }
