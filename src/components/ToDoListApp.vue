@@ -10,6 +10,10 @@
 
         <!-- Filters -->
         <TaskFilters @search="onSearch" @status="onStatus" />
+
+        <!-- Tasks -->
+        <TaskList :tasks="filteredTasks" @delete="onDelete" />
+
     </div>
 </template>
 
@@ -19,6 +23,7 @@ import TaskAdd from './partials/TaskAdd.vue';
 import TaskStats from './partials/TaskStats.vue';
 import { computed, ref } from 'vue';
 import TaskFilters from './partials/TaskFilters.vue';
+import TaskList from './partials/TaskList.vue';
 
 const tasks = useStorage('tasks', []);
 
@@ -33,29 +38,29 @@ const filterSearch = ref('');
 const filterStatus = ref('');
 
 const filteredTasks = computed(() => {
-  let output = tasks.value;
+    let output = tasks.value;
 
-  if (filterSearch.value) {
-    const search = filterSearch.value.toLowerCase();
+    if (filterSearch.value) {
+        const search = filterSearch.value.toLowerCase();
 
-    output = output.filter(o => o.name.toLowerCase().includes(search));
-  }
+        output = output.filter(o => o.name.toLowerCase().includes(search));
+    }
 
-  if (filterStatus.value === 'pending') {
-    return output.filter(o => o.completed === false);
-  } else if (filterStatus.value === 'completed')  {
-    return output.filter(o => o.completed === true);
-  }
+    if (filterStatus.value === 'pending') {
+        return output.filter(o => o.completed === false);
+    } else if (filterStatus.value === 'completed') {
+        return output.filter(o => o.completed === true);
+    }
 
-  return output;
+    return output;
 });
 
 const onSearch = (search) => {
-  filterSearch.value = search
+    filterSearch.value = search
 };
 
 const onStatus = (status) => {
-  filterStatus.value = status
+    filterStatus.value = status
 };
 
 const addTask = (task) => {
@@ -69,5 +74,10 @@ const addTask = (task) => {
     })
 };
 
-
+const onDelete = (task) => {
+  const index = tasks.value.findIndex(o => o.id === task.id)
+  if (index !== -1) {
+    tasks.value.splice(index, 1)
+  }
+}
 </script>
