@@ -2,7 +2,6 @@
 
 Aplicação de gerenciamento de tarefas desenvolvida com Vue 3, com foco em organização, produtividade e boas práticas de componentização. O sistema permite criar, visualizar, filtrar e gerenciar tarefas de forma simples e eficiente.
 
----
 
 ## 🚀 Funcionalidades
 
@@ -14,7 +13,7 @@ Aplicação de gerenciamento de tarefas desenvolvida com Vue 3, com foco em orga
 - 📊 Exibição de estatísticas (total, concluídas e pendentes)  
 - 💾 Persistência de dados no navegador (Local Storage)  
 
----
+
 
 ## 🛠️ Tecnologias utilizadas
 
@@ -24,7 +23,7 @@ Aplicação de gerenciamento de tarefas desenvolvida com Vue 3, com foco em orga
 - CSS3  
 - VueUse (useStorage - Local Storage)  
 
----
+
 
 ## 📂 Estrutura do projeto
 
@@ -35,7 +34,7 @@ O projeto segue uma arquitetura baseada em componentes reutilizáveis:
 - `TaskFilters` → Filtros de visualização  
 - `TaskStats` → Estatísticas das tarefas  
 
----
+
 
 ## 🎯 Objetivo
 
