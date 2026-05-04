@@ -14,6 +14,8 @@
         <!-- Tasks -->
         <TaskList :tasks="filteredTasks" @delete="onDelete" />
 
+        <!-- Empty state -->
+        <TaskEmptyState v-if="filteredTasks.length === 0" :message="emptyStateMessage" />
     </div>
 </template>
 
@@ -24,6 +26,7 @@ import TaskStats from './partials/TaskStats.vue';
 import { computed, ref } from 'vue';
 import TaskFilters from './partials/TaskFilters.vue';
 import TaskList from './partials/TaskList.vue';
+import TaskEmptyState from './partials/TaskEmptyState.vue';
 
 const tasks = useStorage('tasks', []);
 
@@ -75,9 +78,19 @@ const addTask = (task) => {
 };
 
 const onDelete = (task) => {
-  const index = tasks.value.findIndex(o => o.id === task.id)
-  if (index !== -1) {
-    tasks.value.splice(index, 1)
+    const index = tasks.value.findIndex(o => o.id === task.id)
+    if (index !== -1) {
+        tasks.value.splice(index, 1)
+    }
+};
+
+const emptyStateMessage = computed(() => {
+  let output = 'Nenhuma tarefa cadastrada.'
+
+  if (filterSearch.value || filterStatus.value) {
+    return 'Nenhum resultado para este filtro.'
   }
-}
+
+  return output;
+});
 </script>
